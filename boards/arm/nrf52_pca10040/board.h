@@ -41,4 +41,9 @@
 #define LED3_GPIO_PIN   20
 #define LED3_GPIO_PORT  CONFIG_GPIO_NRF5_P0_DEV_NAME
 
+#define CSD       19
+#define ANT_SEL   18
+#define CPS       15
+#define CHL       17
+
 #endif /* __INC_BOARD_H */

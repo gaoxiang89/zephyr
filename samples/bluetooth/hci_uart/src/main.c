@@ -28,7 +28,9 @@
 #include <bluetooth/hci_raw.h>
 
 #include "common/log.h"
-
+#include <board.h>
+#include <device.h>
+#include <gpio.h>
 static struct device *hci_uart_dev;
 static BT_STACK_NOINIT(tx_thread_stack, CONFIG_BT_HCI_TX_STACK_SIZE);
 static struct k_thread tx_thread_data;
@@ -351,8 +353,20 @@ void main(void)
 	/* incoming events and data from the controller */
 	static K_FIFO_DEFINE(rx_queue);
 	int err;
+	struct device *dev;
+	dev = device_get_binding(CONFIG_GPIO_NRF5_P0_DEV_NAME);
 
 	SYS_LOG_DBG("Start");
+
+	gpio_pin_configure(dev, CSD, GPIO_DIR_OUT);
+	gpio_pin_configure(dev, ANT_SEL, GPIO_DIR_OUT);
+	gpio_pin_configure(dev, CPS, GPIO_DIR_OUT);
+	gpio_pin_configure(dev, CHL, GPIO_DIR_OUT);
+
+	gpio_pin_write(dev, CSD, 1);
+	gpio_pin_write(dev, ANT_SEL, 0);
+	gpio_pin_write(dev, CPS, 1);
+	gpio_pin_write(dev, CHL, 1);
 
 	/* Enable the raw interface, this will in turn open the HCI driver */
 	bt_enable_raw(&rx_queue);

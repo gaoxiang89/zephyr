@@ -140,11 +140,11 @@ static void nordicsemi_nrf52832_init(void)
 		while (NRF_NVMC->READY == NVMC_READY_READY_Busy) {
 			;
 		}
-		NRF_UICR->PSELRESET[0] = 21;
+		NRF_UICR->PSELRESET[0] = 22;
 		while (NRF_NVMC->READY == NVMC_READY_READY_Busy) {
 			;
 		}
-		NRF_UICR->PSELRESET[1] = 21;
+		NRF_UICR->PSELRESET[1] = 22;
 		while (NRF_NVMC->READY == NVMC_READY_READY_Busy) {
 			;
 		}
@@ -404,7 +404,7 @@ static int nordicsemi_nrf52_init(struct device *arg)
 	 * will be reserved for NFC and will not be available as
 	 * normal GPIOs.
 	 */
-#if defined(CONFIG_NFCT_PINS_AS_GPIOS)
+//#if defined(CONFIG_NFCT_PINS_AS_GPIOS)
 	if ((NRF_UICR->NFCPINS & UICR_NFCPINS_PROTECT_Msk) ==
 	    (UICR_NFCPINS_PROTECT_NFC << UICR_NFCPINS_PROTECT_Pos)) {
 
@@ -422,7 +422,7 @@ static int nordicsemi_nrf52_init(struct device *arg)
 		}
 		NVIC_SystemReset();
 	}
-#endif
+//#endif
 
 	_ClearFaults();
 
